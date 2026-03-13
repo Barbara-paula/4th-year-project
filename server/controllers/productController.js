@@ -1,6 +1,6 @@
-import Supplier from "../models/supplier.js";
-import Category from "../models/category.js";
-import Product from "../models/product.js";
+import Supplier from "../models/Supplier.js";
+import Category from "../models/Category.js";
+import Product from "../models/Product.js";
 
 const addProduct = async (req, res) => {
     try {

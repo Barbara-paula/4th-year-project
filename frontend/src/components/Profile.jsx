@@ -12,7 +12,7 @@ const Profile = () => {
     const [edit, setEdit] = useState(false);
     const fetchUser = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/api/user/profile', {
+            const response = await axios.get('https://stockflow-backend-tq0g.onrender.com/api/user/profile', {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('pos-token')}`
                 },
@@ -36,7 +36,7 @@ const Profile = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.put("http://localhost:3000/api/user/profile", user, {
+            const response = await axios.put("https://stockflow-backend-tq0g.onrender.com/api/user/profile", user, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('pos-token')}`,
                 },

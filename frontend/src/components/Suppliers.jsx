@@ -26,7 +26,7 @@ const Suppliers = () => {
     const fetchSuppliers = async () => {
         setLoading(true);
         try {
-            const response = await axios.get("http://localhost:3000/api/supplier", {
+            const response = await axios.get("https://stockflow-backend-tq0g.onrender.com/api/supplier", {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("pos-token")}`,
                 },
@@ -72,7 +72,7 @@ const Suppliers = () => {
         e.preventDefault();
         if (editSupplier) {
             try {
-                const response = await axios.put(`http://localhost:3000/api/supplier/${editSupplier}`, formData,
+                const response = await axios.put(`https://stockflow-backend-tq0g.onrender.com/api/supplier/${editSupplier}`, formData,
                     {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem('pos-token')}`
@@ -99,7 +99,7 @@ const Suppliers = () => {
             }
         } else {
             try {
-                const response = await axios.post(`http://localhost:3000/api/supplier/add`, formData,
+                const response = await axios.post(`https://stockflow-backend-tq0g.onrender.com/api/supplier/add`, formData,
                     {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem('pos-token')}`
@@ -131,7 +131,7 @@ const Suppliers = () => {
         const confirmDelete = window.confirm("Are you sure you want to delete this supplier?");
         if (confirmDelete) {
             try {
-                const response = await axios.delete(`http://localhost:3000/api/supplier/${id}`, {
+                const response = await axios.delete(`https://stockflow-backend-tq0g.onrender.com/api/supplier/${id}`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('pos-token')}`
                     },

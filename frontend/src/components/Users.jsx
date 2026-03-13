@@ -16,7 +16,7 @@ const Users = () => {
     const fetchUsers = async () => {
         setLoading(true);
         try {
-            const response = await axios.get("http://localhost:3000/api/user", {
+            const response = await axios.get("https://stockflow-backend-tq0g.onrender.com/api/user", {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("pos-token")}`,
                 },
@@ -42,7 +42,7 @@ const Users = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const response = await axios.post(
-            "http://localhost:3000/api/user/add",
+            "https://stockflow-backend-tq0g.onrender.com/api/user/add",
             formData,
             {
                 headers: {
@@ -71,7 +71,7 @@ const Users = () => {
         if (confirmDelete) {
             try {
                 const response = await axios.delete(
-                    `http://localhost:3000/api/user/${id}`,
+                    `https://stockflow-backend-tq0g.onrender.com/api/user/${id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("pos-token")}`,

@@ -11,7 +11,7 @@ const Categories = () => {
     const fetchCategories = async () => {
         setLoading(true);
         try {
-            const response = await axios.get("http://localhost:3000/api/category", {
+            const response = await axios.get("https://stockflow-backend-tq0g.onrender.com/api/category", {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("pos-token")}`,
                 },
@@ -32,7 +32,7 @@ const Categories = () => {
         e.preventDefault();
         if (editCategory) {
             const response = await axios.put(
-                `http://localhost:3000/api/category/${editCategory}`,
+                `https://stockflow-backend-tq0g.onrender.com/api/category/${editCategory}`,
                 { categoryName, categoryDescription },
                 {
                     headers: {
@@ -52,7 +52,7 @@ const Categories = () => {
             }
         } else {
             const response = await axios.post(
-                "http://localhost:3000/api/category/add",
+                "https://stockflow-backend-tq0g.onrender.com/api/category/add",
                 { categoryName, categoryDescription },
                 {
                     headers: {
@@ -77,7 +77,7 @@ const Categories = () => {
         if (confirmDelete) {
             try {
                 const response = await axios.delete(
-                    `http://localhost:3000/api/category/${id}`,
+                    `https://stockflow-backend-tq0g.onrender.com/api/category/${id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem("pos-token")}`,

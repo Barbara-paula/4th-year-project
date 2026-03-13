@@ -19,7 +19,7 @@ const Products = () => {
 
     const fetchProducts = async () => {
         try {
-            const response = await axios.get("http://localhost:3000/api/product", {
+            const response = await axios.get("https://stockflow-backend-tq0g.onrender.com/api/product", {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("pos-token")}`,
                 },
@@ -67,7 +67,7 @@ const Products = () => {
         const confirmDelete = window.confirm("Are you sure you want to delete this product?");
         if (confirmDelete) {
             try {
-                const response = await axios.delete(`http://localhost:3000/api/product/${Id}`, {
+                const response = await axios.delete(`https://stockflow-backend-tq0g.onrender.com/api/product/${Id}`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("pos-token")}`,
                     },
@@ -103,7 +103,7 @@ const Products = () => {
 
         if (editProduct) {
             try {
-                const response = await axios.put(`http://localhost:3000/api/product/${editProduct}`, formData, {
+                const response = await axios.put(`https://stockflow-backend-tq0g.onrender.com/api/product/${editProduct}`, formData, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("pos-token")}`,
                     },
@@ -130,7 +130,7 @@ const Products = () => {
             return;
         } else {
             try {
-                const response = await axios.post("http://localhost:3000/api/product/add", formData, {
+                const response = await axios.post("https://stockflow-backend-tq0g.onrender.com/api/product/add", formData, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("pos-token")}`,
                     },

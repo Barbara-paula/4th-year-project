@@ -15,7 +15,7 @@ const Summary = () => {
     const fetchDashboardData = async () => {
         try {
             setLoading(true)
-            const response = await axios.get('http://localhost:3000/api/dashboard', {
+            const response = await axios.get('https://stockflow-backend-tq0g.onrender.com/api/dashboard', {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('pos-token')}`
                 }

@@ -18,7 +18,7 @@ const CustomerProducts = () => {
 
     const fetchProducts = async () => {
         try {
-            const response = await axios.get("http://localhost:3000/api/product", {
+            const response = await axios.get("https://stockflow-backend-tq0g.onrender.com/api/product", {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("pos-token")}`,
                 },
@@ -77,7 +77,7 @@ const CustomerProducts = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:3000/api/order/add", orderData, {
+            const response = await axios.post("https://stockflow-backend-tq0g.onrender.com/api/order/add", orderData, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("pos-token")}`,
                 },

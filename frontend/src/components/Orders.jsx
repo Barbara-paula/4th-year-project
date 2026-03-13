@@ -6,7 +6,7 @@ const Orders = () => {
 
     const fetchOrders = async () => {
         try {
-            const response = await axios.get("http://localhost:3000/api/order", {
+            const response = await axios.get("https://stockflow-backend-tq0g.onrender.com/api/order", {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("pos-token")}`,
                 },

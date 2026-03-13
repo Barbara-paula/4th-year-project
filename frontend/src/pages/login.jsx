@@ -21,7 +21,7 @@ const Login = () => {
 
         try {
 
-            const response = await axios.post("http://localhost:3000/api/auth/login",{
+            const response = await axios.post("https://stockflow-backend-tq0g.onrender.com/api/auth/login",{
                 email, password,});
             console.log(response.data)
 

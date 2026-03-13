@@ -6,10 +6,10 @@ const Root = () => {
 
     if (user) {
         if (user.role === "admin") {
-            return <Navigate to="/admin/dashboard" replace />;
+            return <Navigate to="/admin-dashboard" replace />;
         }
         if (user.role === "customer") {
-            return <Navigate to="/customer/dashboard" replace />;
+            return <Navigate to="/customer-dashboard" replace />;
         }
     }
     return <Navigate to="/login" replace />;

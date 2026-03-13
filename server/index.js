@@ -3,17 +3,22 @@ import cors from 'cors';
 import connectDB from './db/connection.js';
 import authRoutes from './routes/auth.js'
 import categoryRoutes from "./routes/category.js";
+import supplierRoutes from "./routes/supplier.js";
+import productRoutes from "./routes/product.js";
+import userRoutes from "./routes/user.js";
+import orderRouter from "./routes/order.js";
+import dashboardRouter from "./routes/dashboard.js";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-
-app.get('/', (req, res) => {
-    res.json({ message: 'Server is running. API available at /api/auth' });
-});
-
 app.use('/api/auth', authRoutes);
 app.use("/api/category", categoryRoutes)
+app.use("/api/supplier", supplierRoutes)
+app.use("/api/product", productRoutes)
+app.use("/api/user", userRoutes)
+app.use("/api/order", orderRouter)
+app.use("/api/dashboard", dashboardRouter)
 
 const PORT = process.env.PORT || 3000;
 

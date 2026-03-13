@@ -28,9 +28,9 @@ const Login = () => {
             if (response.data.success){
                 login(response.data.user, response.data.token);
                 if(response.data.user.role === "admin"){
-                    navigate("/admin/dashboard");
+                    navigate("/admin-dashboard");
                 }else {
-                    navigate("/customer/dashboard");
+                    navigate("/customer-dashboard");
                 }
             } else {
                 setError(response.data.message || 'Login failed');
@@ -71,6 +71,7 @@ const Login = () => {
                             name='email'
                             value={email}
                             required
+                            autoComplete='username'
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder='Enter Email'
                         />
@@ -83,6 +84,7 @@ const Login = () => {
                         name='password'
                         value={password}
                         required
+                        autoComplete='current-password'
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder='enter password'
                         />

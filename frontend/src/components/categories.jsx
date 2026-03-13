@@ -6,7 +6,7 @@ const Categories = () => {
     const [categoryDescription, setCategoryDescription] = useState("");
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [editingCategory, setEditingCategory] = useState(null);
+    const [editCategory, setEditCategory] = useState(null);
 
     const fetchCategories = async () => {
         setLoading(true);
@@ -92,19 +92,23 @@ const Categories = () => {
                     alert("Error deleting category. Please try again")
                 }
             } catch (error) {
-                console.log("Error deleting category:", error);
-                alert("Error deleting category. Please try again")
+                if (error.response) {
+                    alert(error.response.data.message);
+                } else {
+                    alert("Error deleting category. Please try again")
+                }
             }
         }
+    };
 
-        const handleEdit = async (category) => {
-            setEditingCategory(category._id);
+    const handleEdit = async (category) => {
+            setEditCategory(category._id);
             setCategoryName(category.categoryName);
             setCategoryDescription(category.categoryDescription);
         };
 
         const handleCancel = () => {
-            setEditingCategory(null);
+            setEditCategory(null);
             setCategoryName("");
             setCategoryDescription("");
         };
@@ -137,7 +141,7 @@ const Categories = () => {
                                 </div>
                                 <div className="flex space-x-2">
                                     <button type="Submit"
-                                        className="w-full mt-2 rounded-md bg-green-500 text-white p-3 cursor-pointer hover:bg-green"
+                                        className="w-full mt-2 rounded-md bg-green-500 text-white p-3 cursor-pointer hover:bg-green-600"
                                     >{editCategory ? "Save Changes" : "Add Category"}</button>
                                     {editCategory && (
                                         <button type="button"
@@ -180,7 +184,6 @@ const Categories = () => {
                     </div>
                 </div>
             </div>
-        )
-    }
-}
+        );
+};
 export default Categories;

@@ -41,7 +41,9 @@ const updateCategory = async (req, res) => {
         if (!existingCategory) {
             return res.status(404).json({ success: false, message: "Category not found" });
         }
-        const updatedCategory = await Category.findByIdAndUpdate(id, { categoryName, categoryDescription }, { new: true });
+        const updatedCategory = await Category.findByIdAndUpdate(
+            id,
+            { categoryName, categoryDescription }, { new: true });
         return res.status(200).json({ success: true, message: "Category updated successfully" });
     } catch (error) {
         console.error("Error updating category", error);
@@ -52,6 +54,12 @@ const updateCategory = async (req, res) => {
 const deleteCategory = async (req, res) => {
     try {
         const { id } = req.params;
+
+        const productCount = await ProductModel.countDocuments({ categoryId: id });
+        if (productCount > 0) {
+            return res.status(400).json({ success: false, message: "Cannot delete category with products" });
+        }
+
         const existingCategory = await Category.findById(id);
         if (!existingCategory) {
             return res.status(404).json({ success: false, message: "Category not found" });

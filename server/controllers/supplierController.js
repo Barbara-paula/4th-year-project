@@ -1,4 +1,4 @@
-import supplier from "../models/supplier.js";
+import supplier from "../models/Supplier.js";
 
 const addSupplier = async (req, res) => {
     try {

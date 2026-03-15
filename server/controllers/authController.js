@@ -19,7 +19,16 @@ const login = async (req, res) => {
 
         return res.status(200).json({success: true, message: "login successful", token, user: {id: user._id, name: user.name, email: user.email, role:user.role}})
     }catch (error){
-        return res.status(500).json({success: false, message: "internal server error"});
+        console.error("Login error details:", {
+            message: error.message,
+            stack: error.stack,
+            body: req.body,
+            envVars: {
+                MONGO_URI: process.env.MONGO_URI ? 'SET' : 'NOT SET',
+                JWT_SECRET: process.env.JWT_SECRET ? 'SET' : 'NOT SET'
+            }
+        });
+        return res.status(500).json({success: false, message: "internal server error", details: error.message});
     }
 }
 

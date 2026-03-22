@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaHome, FaShoppingCart, FaSignOutAlt, FaTruck, FaTable, FaBox, FaUsers, FaCog } from "react-icons/fa"
+import { FaHome, FaShoppingCart, FaSignOutAlt, FaTruck, FaTable, FaBox, FaUsers, FaCog, FaBell, FaChartLine, FaFileInvoice } from "react-icons/fa"
 import { NavLink } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
 
@@ -10,6 +10,9 @@ const Sidebar = () => {
         { name: "Products", path: "/admin-dashboard/products", icon: <FaBox />, isParent: false },
         { name: "Suppliers", path: "/admin-dashboard/suppliers", icon: <FaTruck />, isParent: false },
         { name: "Orders", path: "/admin-dashboard/orders", icon: <FaShoppingCart />, isParent: false },
+        { name: "Purchase Orders", path: "/admin-dashboard/purchase-orders", icon: <FaFileInvoice />, isParent: false },
+        { name: "Stock Alerts", path: "/admin-dashboard/stock-alerts", icon: <FaBell />, isParent: false },
+        { name: "Stock Movements", path: "/admin-dashboard/stock-movements", icon: <FaChartLine />, isParent: false },
         { name: "Users", path: "/admin-dashboard/users", icon: <FaUsers />, isParent: false },
         { name: "Profile", path: "/admin-dashboard/profile", icon: <FaCog />, isParent: false },
         { name: "Logout", path: "/admin-dashboard/logout", icon: <FaSignOutAlt />, isParent: false },

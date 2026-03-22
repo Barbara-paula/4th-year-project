@@ -13,6 +13,9 @@ import CustomerProducts from './components/CusomerProducts.jsx'
 import Orders from './components/Orders.jsx'
 import Summary from './components/Summary.jsx'
 import Profile from './components/Profile.jsx'
+import StockAlerts from './components/StockAlerts.jsx'
+import StockMovements from './components/StockMovements.jsx'
+import PurchaseOrders from './components/PurchaseOrders.jsx'
 
 function App() {
   return (
@@ -34,6 +37,9 @@ function App() {
           <Route path='orders' element={<Orders />} />
           <Route path='users' element={<Users />} />
           <Route path='profile' element={<Profile />} />
+          <Route path='stock-alerts' element={<StockAlerts />} />
+          <Route path='stock-movements' element={<StockMovements />} />
+          <Route path='purchase-orders' element={<PurchaseOrders />} />
           <Route path='logout' element={<Logout />} />
         </Route>
         <Route

@@ -8,6 +8,8 @@ import productRoutes from "./routes/product.js";
 import userRoutes from "./routes/user.js";
 import orderRouter from "./routes/order.js";
 import dashboardRouter from "./routes/dashboard.js";
+import stockRoutes from "./routes/stock.js";
+import purchaseOrderRoutes from "./routes/purchaseOrder.js";
 
 const app = express();
 app.use(cors());
@@ -19,6 +21,8 @@ app.use("/api/product", productRoutes)
 app.use("/api/user", userRoutes)
 app.use("/api/order", orderRouter)
 app.use("/api/dashboard", dashboardRouter)
+app.use("/api/stock", stockRoutes)
+app.use("/api/purchase-order", purchaseOrderRoutes)
 
 const PORT = process.env.PORT || 3000;
 

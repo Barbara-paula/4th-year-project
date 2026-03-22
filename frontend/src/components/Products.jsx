@@ -14,7 +14,9 @@ const Products = () => {
         price: "",
         stock: "",
         categoryId: "",
-        supplierId: ""
+        supplierId: "",
+        minStockThreshold: "10",
+        maxStockThreshold: "100"
     });
 
     const fetchProducts = async () => {
@@ -58,7 +60,9 @@ const Products = () => {
             price: product.price,
             stock: product.stock,
             categoryId: product.categoryId?._id || "",
-            supplierId: product.supplierId?._id || ""
+            supplierId: product.supplierId?._id || "",
+            minStockThreshold: product.minStockThreshold?.toString() || "10",
+            maxStockThreshold: product.maxStockThreshold?.toString() || "100"
         })
     };
 
@@ -93,13 +97,14 @@ const Products = () => {
             price: "",
             stock: "",
             categoryId: "",
-            supplierId: ""
+            supplierId: "",
+            minStockThreshold: "10",
+            maxStockThreshold: "100"
         })
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
 
         if (editProduct) {
             try {
@@ -119,7 +124,9 @@ const Products = () => {
                         price: "",
                         stock: "",
                         categoryId: "",
-                        supplierId: ""
+                        supplierId: "",
+                        minStockThreshold: "10",
+                        maxStockThreshold: "100"
                     })
                 } else {
                     alert("Error updating product");
@@ -145,7 +152,9 @@ const Products = () => {
                         price: "",
                         stock: "",
                         categoryId: "",
-                        supplierId: ""
+                        supplierId: "",
+                        minStockThreshold: "10",
+                        maxStockThreshold: "100"
                     })
                 } else {
                     alert("Error adding product");

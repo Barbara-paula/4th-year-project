@@ -56,6 +56,11 @@ const deleteCategory = async (req, res) => {
     try {
         const { id } = req.params;
 
+        // Validate if id is a valid MongoDB ObjectId
+        if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+            return res.status(400).json({ success: false, message: "Invalid category ID format" });
+        }
+
         const productCount = await ProductModel.countDocuments({ categoryId: id });
         if (productCount > 0) {
             return res.status(400).json({ success: false, message: "Cannot delete category with products" });
@@ -68,8 +73,11 @@ const deleteCategory = async (req, res) => {
         await Category.findByIdAndDelete(id);
         return res.status(200).json({ success: true, message: "Category deleted successfully" });
     } catch (error) {
-        console.error("Error deleting category", error);
-        return res.status(500).json({ success: false, message: "server error in deleting category" });
+        console.error("Error deleting category:", error);
+        if (error.name === 'CastError') {
+            return res.status(400).json({ success: false, message: "Invalid category ID" });
+        }
+        return res.status(500).json({ success: false, message: "Server error in deleting category", error: error.message });
     }
 }
 

@@ -1,5 +1,6 @@
 import Category from "../models/Category.js";
 import ProductModel from "../models/Product.js";
+import mongoose from "mongoose";
 
 const addCategory = async (req, res) => {
     try {
@@ -38,6 +39,10 @@ const updateCategory = async (req, res) => {
         const { id } = req.params;
         const { categoryName, categoryDescription } = req.body;
 
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ success: false, message: "Invalid category ID" });
+        }
+
         const existingCategory = await Category.findById(id);
         if (!existingCategory) {
             return res.status(404).json({ success: false, message: "Category not found" });
@@ -57,8 +62,8 @@ const deleteCategory = async (req, res) => {
         const { id } = req.params;
 
         // Validate if id is a valid MongoDB ObjectId
-        if (!id.match(/^[0-9a-fA-F]{24}$/)) {
-            return res.status(400).json({ success: false, message: "Invalid category ID format" });
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ success: false, message: "Invalid category ID" });
         }
 
         const productCount = await ProductModel.countDocuments({ categoryId: id });
@@ -70,13 +75,11 @@ const deleteCategory = async (req, res) => {
         if (!existingCategory) {
             return res.status(404).json({ success: false, message: "Category not found" });
         }
+        
         await Category.findByIdAndDelete(id);
         return res.status(200).json({ success: true, message: "Category deleted successfully" });
     } catch (error) {
         console.error("Error deleting category:", error);
-        if (error.name === 'CastError') {
-            return res.status(400).json({ success: false, message: "Invalid category ID" });
-        }
         return res.status(500).json({ success: false, message: "Server error in deleting category", error: error.message });
     }
 }

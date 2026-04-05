@@ -11,6 +11,9 @@ const ProductsEnhanced = () => {
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const [filterCategory, setFilterCategory] = useState('');
+    const [filterSupplier, setFilterSupplier] = useState('');
+    const [filterAvailability, setFilterAvailability] = useState('');
     const [formData, setFormData] = useState({
         name: "",
         description: "",
@@ -48,12 +51,27 @@ const ProductsEnhanced = () => {
     }, []);
 
     useEffect(() => {
-        const filtered = products.filter((product) =>
+        let filtered = products.filter((product) =>
             product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             product.sku?.toLowerCase().includes(searchTerm.toLowerCase())
         );
+
+        if (filterCategory) {
+            filtered = filtered.filter(p => p.categoryId?._id === filterCategory);
+        }
+        if (filterSupplier) {
+            filtered = filtered.filter(p => p.supplierId?._id === filterSupplier);
+        }
+        if (filterAvailability === 'in_stock') {
+            filtered = filtered.filter(p => p.stock > (p.minStockThreshold || 10));
+        } else if (filterAvailability === 'low_stock') {
+            filtered = filtered.filter(p => p.stock > 0 && p.stock <= (p.minStockThreshold || 10));
+        } else if (filterAvailability === 'out_of_stock') {
+            filtered = filtered.filter(p => p.stock === 0);
+        }
+
         setFilteredProducts(filtered);
-    }, [searchTerm, products]);
+    }, [searchTerm, products, filterCategory, filterSupplier, filterAvailability]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -245,6 +263,40 @@ const ProductsEnhanced = () => {
                 >
                     <FaPlus className="mr-2" /> Add Product
                 </button>
+            </div>
+
+            {/* Filter Dropdowns */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                <select
+                    value={filterCategory}
+                    onChange={(e) => setFilterCategory(e.target.value)}
+                    className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
+                >
+                    <option value="">All Categories</option>
+                    {categories.map((cat) => (
+                        <option key={cat._id} value={cat._id}>{cat.categoryName}</option>
+                    ))}
+                </select>
+                <select
+                    value={filterSupplier}
+                    onChange={(e) => setFilterSupplier(e.target.value)}
+                    className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
+                >
+                    <option value="">All Suppliers</option>
+                    {suppliers.map((sup) => (
+                        <option key={sup._id} value={sup._id}>{sup.name}</option>
+                    ))}
+                </select>
+                <select
+                    value={filterAvailability}
+                    onChange={(e) => setFilterAvailability(e.target.value)}
+                    className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
+                >
+                    <option value="">All Availability</option>
+                    <option value="in_stock">In Stock</option>
+                    <option value="low_stock">Low Stock</option>
+                    <option value="out_of_stock">Out of Stock</option>
+                </select>
             </div>
 
             {filteredProducts.length === 0 ? (

@@ -13,7 +13,9 @@ import {
     FaFileInvoice,
     FaBars,
     FaTimes,
-    FaChevronDown
+    FaChevronDown,
+    FaFileAlt,
+    FaHistory
 } from "react-icons/fa"
 import { NavLink, useLocation } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
@@ -86,6 +88,20 @@ const SidebarEnhanced = () => {
             name: "Users", 
             path: "/admin-dashboard/users", 
             icon: <FaUsers />, 
+            isParent: false,
+            badge: null
+        },
+        { 
+            name: "Reports", 
+            path: "/admin-dashboard/reports", 
+            icon: <FaFileAlt />, 
+            isParent: false,
+            badge: null
+        },
+        { 
+            name: "Audit Logs", 
+            path: "/admin-dashboard/audit-logs", 
+            icon: <FaHistory />, 
             isParent: false,
             badge: null
         },

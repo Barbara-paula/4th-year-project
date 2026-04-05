@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
+import logAction from '../utils/auditService.js';
 
 const login = async (req, res) => {
     try {
@@ -16,6 +17,8 @@ const login = async (req, res) => {
             return res.status(401).json({success:false, message: "Invalid credentials"});
         }
         const token = jwt.sign({id: user._id, role: user.role}, process.env.JWT_SECRET, {expiresIn: '2d'})
+
+        await logAction(user._id, user.name, "LOGIN", "User", user._id, `User ${user.email} logged in`, req.ip);
 
         return res.status(200).json({success: true, message: "login successful", token, user: {id: user._id, name: user.name, email: user.email, role:user.role}})
     }catch (error){

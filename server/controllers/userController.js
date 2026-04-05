@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
+import logAction from "../utils/auditService.js";
 
 const addUser = async (req, res) => {
     try {
@@ -21,6 +22,7 @@ const addUser = async (req, res) => {
         })
 
         await newUser.save();
+        await logAction(req.user?._id, req.user?.name, "CREATE", "User", newUser._id, `Created user: ${name} (${role})`, req.ip);
         return res.status(201).json({ success: true, message: "User added successfully" })
     } catch (error) {
         console.error("Error adding new user", error);
@@ -82,6 +84,7 @@ const deleteUser = async (req, res) => {
             return res.status(404).json({ success: false, message: "User not found" });
         }
         await User.findByIdAndDelete(id);
+        await logAction(req.user?._id, req.user?.name, "DELETE", "User", id, `Deleted user: ${existingUser.name}`, req.ip);
         return res.status(200).json({ success: true, message: "User deleted successfully" });
     } catch (error) {
         console.error("Error deleting user", error);

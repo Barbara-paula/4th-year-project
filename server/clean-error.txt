@@ -1,0 +1,1 @@
+Status: 404, Data: {"success":false,"message":"Category not found"}

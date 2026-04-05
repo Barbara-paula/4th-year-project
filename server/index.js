@@ -10,6 +10,8 @@ import orderRouter from "./routes/order.js";
 import dashboardRouter from "./routes/dashboard.js";
 import stockRoutes from "./routes/stock.js";
 import purchaseOrderRoutes from "./routes/purchaseOrder.js";
+import auditRoutes from "./routes/audit.js";
+import reportRoutes from "./routes/report.js";
 
 const app = express();
 app.use(cors());
@@ -23,6 +25,8 @@ app.use("/api/order", orderRouter)
 app.use("/api/dashboard", dashboardRouter)
 app.use("/api/stock", stockRoutes)
 app.use("/api/purchase-order", purchaseOrderRoutes)
+app.use("/api/audit", auditRoutes)
+app.use("/api/report", reportRoutes)
 
 const PORT = process.env.PORT || 3000;
 

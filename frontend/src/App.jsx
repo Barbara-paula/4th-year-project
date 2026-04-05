@@ -16,6 +16,8 @@ import Profile from './components/Profile.jsx'
 import StockAlerts from './components/StockAlerts.jsx'
 import StockMovements from './components/StockMovements.jsx'
 import PurchaseOrders from './components/PurchaseOrders.jsx'
+import Reports from './components/Reports.jsx'
+import AuditLogs from './components/AuditLogs.jsx'
 
 function App() {
   return (
@@ -40,6 +42,8 @@ function App() {
           <Route path='stock-alerts' element={<StockAlerts />} />
           <Route path='stock-movements' element={<StockMovements />} />
           <Route path='purchase-orders' element={<PurchaseOrders />} />
+          <Route path='reports' element={<Reports />} />
+          <Route path='audit-logs' element={<AuditLogs />} />
           <Route path='logout' element={<Logout />} />
         </Route>
         <Route

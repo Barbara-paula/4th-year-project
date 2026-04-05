@@ -1,5 +1,6 @@
 import Product from "../models/Product.js";
 import Order from "../models/Order.js";
+import logAction from "../utils/auditService.js";
 
 const addOrder = async (req, res) => {
     try {
@@ -22,6 +23,7 @@ const addOrder = async (req, res) => {
             totalPrice: total,
         });
         await orderObj.save();
+        await logAction(userId, req.user?.name, "CREATE", "Order", orderObj._id, `Created order for product ${product.name}, qty: ${quantity}`, req.ip);
         return res.status(200).json({ success: true, message: "Order added successfully" });
     } catch (error) {
         console.log("Error adding order:", error);

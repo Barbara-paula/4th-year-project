@@ -1,6 +1,7 @@
 import Supplier from "../models/Supplier.js";
 import Category from "../models/Category.js";
 import Product from "../models/Product.js";
+import logAction from "../utils/auditService.js";
 
 // Generate SKU
 const generateSKU = (name, categoryId) => {
@@ -36,6 +37,7 @@ const addProduct = async (req, res) => {
             barcode
         });
         await newProduct.save();
+        await logAction(req.user?._id, req.user?.name, "CREATE", "Product", newProduct._id, `Created product: ${name}`, req.ip);
         return res.status(200).json({ success: true, message: "Product added successfully", product: newProduct });
     } catch (error) {
         console.error("Error adding product", error);
@@ -75,6 +77,7 @@ const updateProduct = async (req, res) => {
         if (!updatedProduct) {
             return res.status(400).json({ success: false, message: "Product not found" });
         }
+        await logAction(req.user?._id, req.user?.name, "UPDATE", "Product", id, `Updated product: ${name}`, req.ip);
         return res.status(200).json({ success: true, message: "Product updated successfully", product: updatedProduct });
     } catch (error) {
         console.error("Error updating product", error);
@@ -93,6 +96,7 @@ const deleteProduct = async (req, res) => {
             return res.status(400).json({ success: false, message: "Product already deleted" });
         }
         await Product.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
+        await logAction(req.user?._id, req.user?.name, "DELETE", "Product", id, `Deleted product: ${existingProduct.name}`, req.ip);
         return res.status(200).json({ success: true, message: "Product deleted successfully" });
     } catch (error) {
         console.error("Error deleting product", error);

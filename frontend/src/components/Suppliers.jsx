@@ -14,6 +14,9 @@ const Suppliers = () => {
     const [loading, setLoading] = useState(true);
     const [suppliers, setSuppliers] = useState([]);
     const [filteredSuppliers, setFilteredSuppliers] = useState([]);
+    const [historyModal, setHistoryModal] = useState(false);
+    const [historyData, setHistoryData] = useState({ supplier: null, purchaseOrders: [] });
+    const [historyLoading, setHistoryLoading] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -166,6 +169,25 @@ const Suppliers = () => {
         )
     };
 
+    const fetchPurchaseHistory = async (supplierId) => {
+        setHistoryLoading(true);
+        setHistoryModal(true);
+        try {
+            const response = await axios.get(`https://stockflow-backend-tq0g.onrender.com/api/supplier/${supplierId}/purchase-history`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('pos-token')}`
+                },
+            });
+            if (response.data.success) {
+                setHistoryData({ supplier: response.data.supplier, purchaseOrders: response.data.purchaseOrders });
+            }
+        } catch (error) {
+            console.log('Error fetching purchase history:', error);
+        } finally {
+            setHistoryLoading(false);
+        }
+    };
+
     return (
         <div className='w-full h-full flex-col gap-4 p-4'>
             <h1 className='text-2xl font-bold' >Supplier Management</h1>
@@ -201,9 +223,12 @@ const Suppliers = () => {
                                         <button className='px-2 py-1 bg-yellow-500 text-white rounded cursor-pointer mr-2'
                                             onClick={() => handleEdit(supplier)}>
                                             Edit</button>
-                                        <button className='px-2 py-1 bg-red-500 text-white rounded cursor-pointer'
+                                        <button className='px-2 py-1 bg-red-500 text-white rounded cursor-pointer mr-2'
                                             onClick={() => handleDelete(supplier._id)}>
                                             Delete</button>
+                                        <button className='px-2 py-1 bg-indigo-500 text-white rounded cursor-pointer'
+                                            onClick={() => fetchPurchaseHistory(supplier._id)}>
+                                            History</button>
                                     </td>
                                 </tr>
                             ))}
@@ -236,6 +261,55 @@ const Suppliers = () => {
                                 )}
                             </div>
                         </form>
+                    </div>
+                </div>
+            )}
+
+            {historyModal && (
+                <div className='fixed top-0 left-0 w-full h-full bg-black/50 flex justify-center items-center z-50'>
+                    <div className='bg-white p-6 rounded shadow-md w-2/3 max-h-[80vh] overflow-y-auto relative'>
+                        <h2 className='text-xl font-bold mb-1'>Purchase History</h2>
+                        <p className='text-gray-600 mb-4'>{historyData.supplier?.name}</p>
+                        <button className='absolute top-4 right-4 font-bold text-lg cursor-pointer' onClick={() => setHistoryModal(false)}>x</button>
+                        {historyLoading ? <div>Loading...</div> : (
+                            historyData.purchaseOrders.length === 0 ? (
+                                <p className='text-gray-500'>No purchase orders found for this supplier.</p>
+                            ) : (
+                                <table className='w-full border-collapse border border-gray-300'>
+                                    <thead>
+                                        <tr className='bg-gray-200'>
+                                            <th className='border border-gray-300 p-2'>Order #</th>
+                                            <th className='border border-gray-300 p-2'>Date</th>
+                                            <th className='border border-gray-300 p-2'>Items</th>
+                                            <th className='border border-gray-300 p-2'>Total</th>
+                                            <th className='border border-gray-300 p-2'>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {historyData.purchaseOrders.map((po) => (
+                                            <tr key={po._id}>
+                                                <td className='border border-gray-300 p-2'>{po.orderNumber}</td>
+                                                <td className='border border-gray-300 p-2'>{new Date(po.createdAt).toLocaleDateString()}</td>
+                                                <td className='border border-gray-300 p-2'>
+                                                    {po.items?.map((item, i) => (
+                                                        <div key={i}>{item.product?.name || 'N/A'} x{item.quantity}</div>
+                                                    ))}
+                                                </td>
+                                                <td className='border border-gray-300 p-2 font-semibold'>${po.total?.toFixed(2)}</td>
+                                                <td className='border border-gray-300 p-2'>
+                                                    <span className={`px-2 py-1 rounded text-xs font-semibold ${
+                                                        po.status === 'RECEIVED' ? 'bg-green-100 text-green-700' :
+                                                        po.status === 'PENDING' ? 'bg-yellow-100 text-yellow-700' :
+                                                        po.status === 'CANCELLED' ? 'bg-red-100 text-red-700' :
+                                                        'bg-gray-100 text-gray-700'
+                                                    }`}>{po.status}</span>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            )
+                        )}
                     </div>
                 </div>
             )}

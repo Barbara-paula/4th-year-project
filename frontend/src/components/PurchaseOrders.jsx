@@ -330,8 +330,8 @@ const PurchaseOrders = () => {
                                         <input
                                             type="number"
                                             placeholder="Quantity"
-                                            value={item.quantity}
-                                            onChange={(e) => updateItem(index, 'quantity', parseInt(e.target.value))}
+                                            value={item.quantity || 1}
+                                            onChange={(e) => updateItem(index, 'quantity', parseInt(e.target.value) || 1)}
                                             className="w-24 border rounded px-3 py-2"
                                             min="1"
                                             required
@@ -339,8 +339,8 @@ const PurchaseOrders = () => {
                                         <input
                                             type="number"
                                             placeholder="Unit Cost"
-                                            value={item.unitCost}
-                                            onChange={(e) => updateItem(index, 'unitCost', parseFloat(e.target.value))}
+                                            value={item.unitCost || 0}
+                                            onChange={(e) => updateItem(index, 'unitCost', parseFloat(e.target.value) || 0)}
                                             className="w-32 border rounded px-3 py-2"
                                             min="0"
                                             step="0.01"

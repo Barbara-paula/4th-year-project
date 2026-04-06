@@ -1,5 +1,5 @@
-import PurchaseOrder from '../models/PurchaseOrder.js';
-import Product from '../models/Product.js';
+import PurchaseOrderModel from '../models/PurchaseOrder.js';
+import ProductModel from '../models/Product.js';
 import StockMovement from '../models/StockMovement.js';
 
 // Generate unique order number
@@ -22,7 +22,7 @@ export const createPurchaseOrder = async (req, res) => {
         const tax = subtotal * 0.1; // 10% tax
         const total = subtotal + tax;
 
-        const purchaseOrder = await PurchaseOrder.create({
+        const purchaseOrder = await PurchaseOrderModel.create({
             orderNumber: generateOrderNumber(),
             supplier,
             items,
@@ -53,7 +53,7 @@ export const getPurchaseOrders = async (req, res) => {
         const { status } = req.query;
         const filter = status ? { status } : {};
         
-        const purchaseOrders = await PurchaseOrder.find(filter)
+        const purchaseOrders = await PurchaseOrderModel.find(filter)
             .populate('supplier', 'name email')
             .populate('items.product', 'name sku')
             .populate('user', 'name')
@@ -71,7 +71,7 @@ export const getPurchaseOrderById = async (req, res) => {
     try {
         const { id } = req.params;
         
-        const purchaseOrder = await PurchaseOrder.findById(id)
+        const purchaseOrder = await PurchaseOrderModel.findById(id)
             .populate('supplier', 'name email phone address')
             .populate('items.product', 'name sku stock')
             .populate('user', 'name email');
@@ -93,7 +93,7 @@ export const updatePurchaseOrderStatus = async (req, res) => {
         const { id } = req.params;
         const { status } = req.body;
 
-        const purchaseOrder = await PurchaseOrder.findById(id);
+        const purchaseOrder = await PurchaseOrderModel.findById(id);
         if (!purchaseOrder) {
             return res.status(404).json({ success: false, message: "Purchase order not found" });
         }
@@ -103,7 +103,7 @@ export const updatePurchaseOrderStatus = async (req, res) => {
         // If order is received, update stock
         if (status === 'RECEIVED') {
             for (const item of purchaseOrder.items) {
-                const product = await Product.findById(item.product);
+                const product = await ProductModel.findById(item.product);
                 if (product) {
                     const previousStock = product.stock;
                     product.stock += item.quantity;
@@ -139,7 +139,7 @@ export const deletePurchaseOrder = async (req, res) => {
     try {
         const { id } = req.params;
         
-        const purchaseOrder = await PurchaseOrder.findById(id);
+        const purchaseOrder = await PurchaseOrderModel.findById(id);
         if (!purchaseOrder) {
             return res.status(404).json({ success: false, message: "Purchase order not found" });
         }
@@ -148,7 +148,7 @@ export const deletePurchaseOrder = async (req, res) => {
             return res.status(400).json({ success: false, message: "Cannot delete received purchase order" });
         }
 
-        await PurchaseOrder.findByIdAndDelete(id);
+        await PurchaseOrderModel.findByIdAndDelete(id);
 
         res.status(200).json({ success: true, message: "Purchase order deleted successfully" });
     } catch (error) {

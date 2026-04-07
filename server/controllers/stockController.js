@@ -57,6 +57,31 @@ export const getStockMovements = async (req, res) => {
 // Get stock alerts
 export const getStockAlerts = async (req, res) => {
     try {
+        // First, create alerts for out of stock products
+        const outOfStockProducts = await Product.find({
+            stock: 0,
+            isDeleted: false
+        }).populate('categoryId supplierId');
+
+        for (const product of outOfStockProducts) {
+            const existingAlert = await StockAlert.findOne({
+                product: product._id,
+                type: 'OUT_OF_STOCK',
+                isResolved: false
+            });
+
+            if (!existingAlert) {
+                await StockAlert.create({
+                    product: product._id,
+                    type: 'OUT_OF_STOCK',
+                    currentStock: product.stock,
+                    threshold: 0,
+                    message: `${product.name} is out of stock`
+                });
+            }
+        }
+
+        // Then get all unresolved alerts
         const alerts = await StockAlert.find({ isResolved: false })
             .populate('product', 'name sku stock')
             .sort({ createdAt: -1 });

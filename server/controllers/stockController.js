@@ -61,7 +61,7 @@ export const getStockAlerts = async (req, res) => {
         const outOfStockProducts = await Product.find({
             stock: 0,
             isDeleted: false
-        }).populate('categoryId supplierId');
+        });
 
         for (const product of outOfStockProducts) {
             const existingAlert = await StockAlert.findOne({
@@ -77,6 +77,31 @@ export const getStockAlerts = async (req, res) => {
                     currentStock: product.stock,
                     threshold: 0,
                     message: `${product.name} is out of stock`
+                });
+            }
+        }
+
+        // Also create alerts for low stock products
+        const lowStockProducts = await Product.find({
+            $expr: { $lte: ['$stock', '$minStockThreshold'] },
+            stock: { $gt: 0 },
+            isDeleted: false
+        });
+
+        for (const product of lowStockProducts) {
+            const existingAlert = await StockAlert.findOne({
+                product: product._id,
+                type: 'LOW_STOCK',
+                isResolved: false
+            });
+
+            if (!existingAlert) {
+                await StockAlert.create({
+                    product: product._id,
+                    type: 'LOW_STOCK',
+                    currentStock: product.stock,
+                    threshold: product.minStockThreshold,
+                    message: `${product.name} is running low on stock (${product.stock} remaining)`
                 });
             }
         }

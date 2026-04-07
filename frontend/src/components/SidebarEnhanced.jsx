@@ -68,14 +68,14 @@ const SidebarEnhanced = () => {
             path: "/admin-dashboard/purchase-orders", 
             icon: <FaFileInvoice />, 
             isParent: false,
-            badge: "New"
+            badge: null
         },
         { 
             name: "Stock Alerts", 
             path: "/admin-dashboard/stock-alerts", 
             icon: <FaBell />, 
             isParent: false,
-            badge: "3"
+            badge: null
         },
         { 
             name: "Stock Movements", 
@@ -297,7 +297,7 @@ const SidebarEnhanced = () => {
                     {!isCollapsed && (
                         <div className="text-xs text-gray-400 text-center">
                             <p>Version 1.0.0</p>
-                            <p className="mt-1">© 2024 Inventory MS</p>
+                            <p className="mt-1">© 2026 Inventory MS</p>
                         </div>
                     )}
                 </div>

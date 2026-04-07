@@ -1,4 +1,5 @@
 import express from 'express';
+import authMiddleware from '../middleware/authMiddleware.js';
 import {
     getLowStockProducts,
     getStockMovements,
@@ -9,10 +10,10 @@ import {
 
 const router = express.Router();
 
-router.get('/low-stock', getLowStockProducts);
-router.get('/movements', getStockMovements);
-router.get('/alerts', getStockAlerts);
-router.patch('/alerts/:alertId/resolve', resolveStockAlert);
-router.patch('/products/:productId/update-stock', updateStock);
+router.get('/low-stock', authMiddleware, getLowStockProducts);
+router.get('/movements', authMiddleware, getStockMovements);
+router.get('/alerts', authMiddleware, getStockAlerts);
+router.patch('/alerts/:alertId/resolve', authMiddleware, resolveStockAlert);
+router.patch('/products/:productId/update-stock', authMiddleware, updateStock);
 
 export default router;

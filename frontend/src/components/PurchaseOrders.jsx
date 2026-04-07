@@ -10,7 +10,7 @@ const PurchaseOrders = () => {
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         supplier: '',
-        items: [{ product: '', quantity: 1, unitCost: 0 }],
+        items: [{ product: '', quantity: 1, unitCost: '' }],
         expectedDeliveryDate: '',
         notes: ''
     });
@@ -74,8 +74,8 @@ const PurchaseOrders = () => {
         setLoading(true);
         try {
             // Validate form data
-            if (!formData.supplier || formData.items.some(item => !item.product || !item.quantity || !item.unitCost)) {
-                alert('Please fill in all required fields');
+            if (!formData.supplier || formData.items.some(item => !item.product || !item.quantity || item.quantity <= 0 || item.unitCost === '' || item.unitCost === undefined || item.unitCost === null || Number(item.unitCost) <= 0)) {
+                alert('Please fill in all required fields (supplier, product, quantity > 0, and unit cost > 0)');
                 setLoading(false);
                 return;
             }
@@ -112,7 +112,7 @@ const PurchaseOrders = () => {
                 setShowModal(false);
                 setFormData({
                     supplier: '',
-                    items: [{ product: '', quantity: 1, unitCost: 0 }],
+                    items: [{ product: '', quantity: 1, unitCost: '' }],
                     expectedDeliveryDate: '',
                     notes: ''
                 });
@@ -162,7 +162,7 @@ const PurchaseOrders = () => {
     const addItem = () => {
         setFormData({
             ...formData,
-            items: [...formData.items, { product: '', quantity: 1, unitCost: 0 }]
+            items: [...formData.items, { product: '', quantity: 1, unitCost: '' }]
         });
     };
 
@@ -178,7 +178,8 @@ const PurchaseOrders = () => {
         if (field === 'quantity') {
             newItems[index][field] = parseInt(value) || 1;
         } else if (field === 'unitCost') {
-            newItems[index][field] = parseFloat(value) || 0;
+            // Store raw value so controlled input works with decimals
+            newItems[index][field] = value;
         } else {
             newItems[index][field] = value;
         }
@@ -351,7 +352,7 @@ const PurchaseOrders = () => {
                                         <input
                                             type="number"
                                             placeholder="Quantity"
-                                            value={item.quantity || 1}
+                                            value={item.quantity}
                                             onChange={(e) => updateItem(index, 'quantity', parseInt(e.target.value) || 1)}
                                             className="w-24 border rounded px-3 py-2"
                                             min="1"
@@ -360,8 +361,8 @@ const PurchaseOrders = () => {
                                         <input
                                             type="number"
                                             placeholder="Unit Cost"
-                                            value={item.unitCost || 0}
-                                            onChange={(e) => updateItem(index, 'unitCost', parseFloat(e.target.value) || 0)}
+                                            value={item.unitCost}
+                                            onChange={(e) => updateItem(index, 'unitCost', e.target.value)}
                                             className="w-32 border rounded px-3 py-2"
                                             min="0"
                                             step="0.01"

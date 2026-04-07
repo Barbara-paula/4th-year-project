@@ -56,7 +56,7 @@ const LoginEnhanced = () => {
                     <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl mb-4 shadow-lg">
                         <FaBox className="text-white text-3xl" />
                     </div>
-                    <h1 className="text-3xl font-bold text-gray-800 mb-2">Inventory Management</h1>
+                    <h1 className="text-3xl font-bold text-gray-800 mb-2">StockFlow</h1>
                     <p className="text-gray-600">Sign in to your account</p>
                 </div>
 

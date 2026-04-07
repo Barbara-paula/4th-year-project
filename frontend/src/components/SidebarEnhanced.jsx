@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { 
-    FaHome, 
-    FaShoppingCart, 
-    FaSignOutAlt, 
-    FaTruck, 
-    FaTable, 
-    FaBox, 
-    FaUsers, 
-    FaCog, 
-    FaBell, 
-    FaChartLine, 
+import {
+    FaHome,
+    FaShoppingCart,
+    FaSignOutAlt,
+    FaTruck,
+    FaTable,
+    FaBox,
+    FaUsers,
+    FaCog,
+    FaBell,
+    FaChartLine,
     FaFileInvoice,
     FaBars,
     FaTimes,
@@ -28,94 +28,94 @@ const SidebarEnhanced = () => {
     const { user } = useAuth();
 
     const menuItems = [
-        { 
-            name: "Dashboard", 
-            path: "/admin-dashboard", 
-            icon: <FaHome />, 
+        {
+            name: "Dashboard",
+            path: "/admin-dashboard",
+            icon: <FaHome />,
             isParent: true,
             badge: null
         },
-        { 
-            name: "Categories", 
-            path: "/admin-dashboard/categories", 
-            icon: <FaTable />, 
+        {
+            name: "Categories",
+            path: "/admin-dashboard/categories",
+            icon: <FaTable />,
             isParent: false,
             badge: null
         },
-        { 
-            name: "Products", 
-            path: "/admin-dashboard/products", 
-            icon: <FaBox />, 
+        {
+            name: "Products",
+            path: "/admin-dashboard/products",
+            icon: <FaBox />,
             isParent: false,
             badge: null
         },
-        { 
-            name: "Suppliers", 
-            path: "/admin-dashboard/suppliers", 
-            icon: <FaTruck />, 
+        {
+            name: "Suppliers",
+            path: "/admin-dashboard/suppliers",
+            icon: <FaTruck />,
             isParent: false,
             badge: null
         },
-        { 
-            name: "Orders", 
-            path: "/admin-dashboard/orders", 
-            icon: <FaShoppingCart />, 
+        {
+            name: "Orders",
+            path: "/admin-dashboard/orders",
+            icon: <FaShoppingCart />,
             isParent: false,
             badge: null
         },
-        { 
-            name: "Purchase Orders", 
-            path: "/admin-dashboard/purchase-orders", 
-            icon: <FaFileInvoice />, 
+        {
+            name: "Purchase Orders",
+            path: "/admin-dashboard/purchase-orders",
+            icon: <FaFileInvoice />,
             isParent: false,
             badge: null
         },
-        { 
-            name: "Stock Alerts", 
-            path: "/admin-dashboard/stock-alerts", 
-            icon: <FaBell />, 
+        {
+            name: "Stock Alerts",
+            path: "/admin-dashboard/stock-alerts",
+            icon: <FaBell />,
             isParent: false,
             badge: null
         },
-        { 
-            name: "Stock Movements", 
-            path: "/admin-dashboard/stock-movements", 
-            icon: <FaChartLine />, 
+        {
+            name: "Stock Movements",
+            path: "/admin-dashboard/stock-movements",
+            icon: <FaChartLine />,
             isParent: false,
             badge: null
         },
-        { 
-            name: "Users", 
-            path: "/admin-dashboard/users", 
-            icon: <FaUsers />, 
+        {
+            name: "Users",
+            path: "/admin-dashboard/users",
+            icon: <FaUsers />,
             isParent: false,
             badge: null
         },
-        { 
-            name: "Reports", 
-            path: "/admin-dashboard/reports", 
-            icon: <FaFileAlt />, 
+        {
+            name: "Reports",
+            path: "/admin-dashboard/reports",
+            icon: <FaFileAlt />,
             isParent: false,
             badge: null
         },
-        { 
-            name: "Audit Logs", 
-            path: "/admin-dashboard/audit-logs", 
-            icon: <FaHistory />, 
+        {
+            name: "Audit Logs",
+            path: "/admin-dashboard/audit-logs",
+            icon: <FaHistory />,
             isParent: false,
             badge: null
         },
-        { 
-            name: "Profile", 
-            path: "/admin-dashboard/profile", 
-            icon: <FaCog />, 
+        {
+            name: "Profile",
+            path: "/admin-dashboard/profile",
+            icon: <FaCog />,
             isParent: false,
             badge: null
         },
-        { 
-            name: "Logout", 
-            path: "/admin-dashboard/logout", 
-            icon: <FaSignOutAlt />, 
+        {
+            name: "Logout",
+            path: "/admin-dashboard/logout",
+            icon: <FaSignOutAlt />,
             isParent: false,
             badge: null,
             isLogout: true
@@ -123,31 +123,31 @@ const SidebarEnhanced = () => {
     ];
 
     const customerItems = [
-        { 
-            name: "Products", 
-            path: "/customer-dashboard", 
-            icon: <FaBox />, 
+        {
+            name: "Products",
+            path: "/customer-dashboard",
+            icon: <FaBox />,
             isParent: true,
             badge: null
         },
-        { 
-            name: "Orders", 
-            path: "/customer-dashboard/orders", 
-            icon: <FaShoppingCart />, 
+        {
+            name: "Orders",
+            path: "/customer-dashboard/orders",
+            icon: <FaShoppingCart />,
             isParent: false,
             badge: null
         },
-        { 
-            name: "Profile", 
-            path: "/customer-dashboard/profile", 
-            icon: <FaCog />, 
+        {
+            name: "Profile",
+            path: "/customer-dashboard/profile",
+            icon: <FaCog />,
             isParent: false,
             badge: null
         },
-        { 
-            name: "Logout", 
-            path: "/customer-dashboard/logout", 
-            icon: <FaSignOutAlt />, 
+        {
+            name: "Logout",
+            path: "/customer-dashboard/logout",
+            icon: <FaSignOutAlt />,
             isParent: false,
             badge: null,
             isLogout: true
@@ -185,16 +185,15 @@ const SidebarEnhanced = () => {
     const MenuItem = ({ item }) => {
         const active = isActive(item.path);
         const isExpanded = expandedMenus[item.name];
-        
+
         return (
             <div className="relative">
                 <NavLink
                     end={item.isParent}
-                    className={`group flex items-center justify-between px-3 py-3 mx-2 rounded-xl transition-all duration-200 ${
-                        active 
-                            ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg' 
+                    className={`group flex items-center justify-between px-3 py-3 mx-2 rounded-xl transition-all duration-200 ${active
+                            ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg'
                             : 'text-gray-300 hover:bg-gray-700 hover:text-white'
-                    } ${item.isLogout ? 'hover:bg-red-600 hover:text-white' : ''}`}
+                        } ${item.isLogout ? 'hover:bg-red-600 hover:text-white' : ''}`}
                     to={item.path}
                 >
                     <div className="flex items-center">
@@ -207,29 +206,27 @@ const SidebarEnhanced = () => {
                             </span>
                         )}
                     </div>
-                    
+
                     {!isCollapsed && (
                         <div className="flex items-center space-x-2">
                             {item.badge && (
-                                <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                                    active 
-                                        ? 'bg-white bg-opacity-20 text-white' 
+                                <span className={`px-2 py-1 text-xs font-semibold rounded-full ${active
+                                        ? 'bg-white bg-opacity-20 text-white'
                                         : 'bg-red-500 text-white'
-                                }`}>
+                                    }`}>
                                     {item.badge}
                                 </span>
                             )}
                             {item.children && (
-                                <FaChevronDown 
-                                    className={`text-xs transition-transform duration-200 ${
-                                        isExpanded ? 'rotate-180' : ''
-                                    }`}
+                                <FaChevronDown
+                                    className={`text-xs transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''
+                                        }`}
                                 />
                             )}
                         </div>
                     )}
                 </NavLink>
-                
+
                 {/* Tooltip for collapsed state */}
                 {isCollapsed && (
                     <div className="absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
@@ -266,12 +263,12 @@ const SidebarEnhanced = () => {
                         </div>
                         {!isCollapsed && (
                             <div>
-                                <h1 className="text-lg font-bold">Inventory</h1>
-                                <p className="text-xs text-gray-400">Management System</p>
+                                <h1 className="text-lg font-bold">StockFlow</h1>
+                                <p className="text-xs text-gray-400">Inventory Management System</p>
                             </div>
                         )}
                     </div>
-                    
+
                     {/* Desktop Collapse Button */}
                     <button
                         onClick={toggleCollapse}

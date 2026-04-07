@@ -73,10 +73,19 @@ const PurchaseOrders = () => {
         e.preventDefault();
         setLoading(true);
         try {
+            // Validate form data
+            if (!formData.supplier || formData.items.some(item => !item.product || !item.quantity || !item.unitCost)) {
+                alert('Please fill in all required fields');
+                setLoading(false);
+                return;
+            }
+
             // Calculate totals for each item
             const itemsWithTotals = formData.items.map(item => ({
                 ...item,
-                total: item.quantity * item.unitCost
+                quantity: parseInt(item.quantity) || 1,
+                unitCost: parseFloat(item.unitCost) || 0,
+                total: (parseInt(item.quantity) || 1) * (parseFloat(item.unitCost) || 0)
             }));
 
             const subtotal = itemsWithTotals.reduce((sum, item) => sum + item.total, 0);
@@ -90,6 +99,8 @@ const PurchaseOrders = () => {
                 tax,
                 total
             };
+
+            console.log('Submitting order data:', orderData);
 
             const response = await axios.post("https://stockflow-backend-tq0g.onrender.com/api/purchase-order", orderData, {
                 headers: {
@@ -109,6 +120,7 @@ const PurchaseOrders = () => {
             }
         } catch (error) {
             console.error("Error creating purchase order:", error);
+            alert('Error creating purchase order: ' + (error.response?.data?.message || error.message));
         } finally {
             setLoading(false);
         }
@@ -161,7 +173,16 @@ const PurchaseOrders = () => {
 
     const updateItem = (index, field, value) => {
         const newItems = [...formData.items];
-        newItems[index][field] = value;
+        
+        // Validate and convert values based on field
+        if (field === 'quantity') {
+            newItems[index][field] = parseInt(value) || 1;
+        } else if (field === 'unitCost') {
+            newItems[index][field] = parseFloat(value) || 0;
+        } else {
+            newItems[index][field] = value;
+        }
+        
         setFormData({ ...formData, items: newItems });
     };
 

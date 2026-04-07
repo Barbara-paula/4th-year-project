@@ -1,4 +1,5 @@
 import express from 'express';
+import authMiddleware from '../middleware/authMiddleware.js';
 import {
     createPurchaseOrder,
     getPurchaseOrders,
@@ -9,10 +10,10 @@ import {
 
 const router = express.Router();
 
-router.post('/', createPurchaseOrder);
-router.get('/', getPurchaseOrders);
-router.get('/:id', getPurchaseOrderById);
-router.patch('/:id/status', updatePurchaseOrderStatus);
-router.delete('/:id', deletePurchaseOrder);
+router.post('/', authMiddleware, createPurchaseOrder);
+router.get('/', authMiddleware, getPurchaseOrders);
+router.get('/:id', authMiddleware, getPurchaseOrderById);
+router.patch('/:id/status', authMiddleware, updatePurchaseOrderStatus);
+router.delete('/:id', authMiddleware, deletePurchaseOrder);
 
 export default router;
